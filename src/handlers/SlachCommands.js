@@ -15,7 +15,6 @@ module.exports = async (client) => {
     try {
         const filesPath = path.join(__dirname, '../slachcommands')
         const files = fs.readdirSync(filesPath).filter(file => file.endsWith(".js"));
-        console.log(files)
         for (file of files) {
             try {
                 slachcommand = require(`../slachCommands/${file}`);

@@ -1,4 +1,4 @@
-const { getVoiceConnection, joinVoiceChannel, createAudioResource, createAudioPlayer, AudioPlayerStatus } = require('@discordjs/voice');
+const { getVoiceConnection, joinVoiceChannel, createAudioResource, createAudioPlayer, AudioPlayerStatus, VoiceConnectionStatus } = require('@discordjs/voice');
 const fs = require('fs');
 const path = require('path');
 
@@ -33,13 +33,44 @@ module.exports = {
             player.play(resource);
             connection.subscribe(player);
 
-            const interval = setInterval(() => {
-                if (message.member.voice.channel.members.size === 1) {
-                    clearInterval(interval);
-                    connection.destroy();
-                    message.channel.send("Me habeis dejado solo🥹");
+            let timer;
+            let timer1;
+            const checkInterval = 1 * 10 * 100; // 1 minuto en milisegundos
+
+            player.on(AudioPlayerStatus.Idle, () => {    
+                const connection = getVoiceConnection(voiceChannel.guild.id);        
+                clearTimeout(timer);
+                timer = setTimeout(() => {
+                        checkBotAlone();
+                }, checkInterval);
+
+                clearTimeout(timer1);
+                timer1 = setTimeout(() => {
+                    if (connection && connection.state.status !== VoiceConnectionStatus.Destroyed) {
+                        connection.destroy();
+                      }
+                }, 1 * 60 * 100); // 1 minuto en milisegundos
+            });
+
+
+
+
+            function checkBotAlone() {
+                const botAlone = voiceChannel.members.size === 1 && voiceChannel.members.has(client.user.id);
+                const connection = getVoiceConnection(voiceChannel.guild.id);
+                if (connection) {
+                    if (botAlone) {
+                        connection.destroy();
+                        message.channel.send("Me habeis dejado solo🥹")
+                        return
+                    }else {
+                        clearTimeout(timer);
+                        timer = setTimeout(() => {
+                                checkBotAlone();
+                        }, checkInterval);
+                    }
                 }
-            }, 60000);
+            }
         }catch(e) {
             console.error("Fallo al reproducir el audio", e);
         } 

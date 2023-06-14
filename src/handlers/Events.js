@@ -26,7 +26,7 @@ module.exports = async (client) => {
                     }
                     console.log(` 🟩 Events - ${file} Cargado.`.green);
                 }catch(e) {
-                    console.log(` 🟥 Events - ${file} No Pudo Ser Cargado.`.red);
+                    console.log(` 🟥 Events - ${file} No Pudo Ser Cargado.`.red, e);
                 }
             }
         }

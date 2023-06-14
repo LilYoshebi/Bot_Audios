@@ -8,12 +8,12 @@ module.exports = {
     aliases: ["guardar"],
     description: "Añade el audio adjuntado a la coleccion",
     run: async (client, message, arg) => {
+        if(!arg[0]) return message.channel.send(`❌ ${message.author} Tienes que especificar el nombre con el que se guardara`);
+
         if(!message.attachments.size) return message.channel.send(`❌ ${message.author} No se adjunto ningun archivo de audio`);
 
         const attachment = message.attachments.first();
         if(!attachment.name.toLowerCase().endsWith(".mp3")) return message.channel.send(`❌ ${message.author} El archiivo adjuntado debe ser .mp3`);
-
-        if(!arg[0]) return message.channel.send(`❌ ${message.author} Tienes que especificar el nombre con el que se guardara`);
 
         try {
             const filePath = path.join(__dirname, `../../../audios/${arg[0]}.mp3`);
