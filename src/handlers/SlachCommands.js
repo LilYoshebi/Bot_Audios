@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path')
 require('colors');
 
 module.exports = async (client) => {
@@ -12,7 +13,9 @@ module.exports = async (client) => {
     }catch{}
 
     try {
-        const files = fs.readdirSync('./src/slachCommands').filter(file => file.endsWith(".js"));
+        const filesPath = path.join(__dirname, '../slachcommands')
+        const files = fs.readdirSync(filesPath).filter(file => file.endsWith(".js"));
+        console.log(files)
         for (file of files) {
             try {
                 slachcommand = require(`../slachCommands/${file}`);
