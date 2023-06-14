@@ -9,6 +9,8 @@ module.exports = {
 
         let embedLista = new EmbedBuilder()
         .setTitle('Todos Los Audios Disponibles:')
+        .setDescription("Mas Audios en Voicy")
+        .setURL('https://www.voicy.network/')
         .addFields(
             {name: ` **${funcion(0)}**`, value: ` `},
             {name: ` **${funcion(1)}**`, value: ` `},
