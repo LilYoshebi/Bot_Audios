@@ -35,7 +35,7 @@ module.exports = {
 
             let timer;
             let timer1;
-            const checkInterval = 1 * 10 * 100; // 1 minuto en milisegundos
+            const checkInterval = 1 *  60* 1000; // 1 minuto en milisegundos
 
             player.on(AudioPlayerStatus.Idle, () => {    
                 const connection = getVoiceConnection(voiceChannel.guild.id);        
@@ -49,7 +49,7 @@ module.exports = {
                     if (connection && connection.state.status !== VoiceConnectionStatus.Destroyed) {
                         connection.destroy();
                       }
-                }, 1 * 60 * 100); // 1 minuto en milisegundos
+                }, 10 * 60 * 1000); // 1 minuto en milisegundos
             });
 
 
